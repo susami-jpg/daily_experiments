@@ -12,9 +12,14 @@ class TasksController < ApplicationController
   end
 
   def create
-    task = Task.new(task_params)
-    task.save!
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を登録しました。"
+    @task = Task.new(task_params)
+    if @task.save
+      redirect_to @task, notice: "タスク「#{task.name}」を登録しました。"
+    else
+      #出力するテンプレートのアクション名をシンボルで指定できる
+      #renderでnewアクションを介さないことでユーザーが前回操作したままの値をフォーム内に引き継げる
+      render :new
+    end
   end
 
   def edit
