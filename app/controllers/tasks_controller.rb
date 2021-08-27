@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks.order(created_at: :desc)
   end
 
   def show
-    @task = Task.find(params[:id])
   end
 
   def new
@@ -12,9 +13,18 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    if @task.save
-      redirect_to @task, notice: "タスク「#{task.name}」を登録しました。"
+    #単純な関連付け(mergeメソッドでハッシュの中にuser_idの値を含めて登録する)
+    #@task = Task.new(task_params.merge(user_id: current_user.id))
+    #関連付けによって使えるtasksメソッドを利用
+    #ここではtasks.newとしているがtasks.buildのほうが適切?
+    @task = current_user.tasks.new(task_params)
+
+    #すでに同名のtaskが存在する場合sqlのuniqueに引っかかるのでここで対処
+    if current_user.tasks.exists?(name: @task.name)
+      flash.now[:danger] = "「#{@task.name}と」同じ名前のタスクがすでに存在します。"
+      render :new
+    elsif @task.save
+      redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
       #出力するテンプレートのアクション名をシンボルで指定できる
       #renderでnewアクションを介さないことでユーザーが前回操作したままの値をフォーム内に引き継げる
@@ -23,24 +33,25 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
   end
 
   def update
-    task = Task.find(params[:id])
-    task.update!(task_params)
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を更新しました。"
+    @task.update!(task_params)
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を更新しました。"
   end
 
   def destroy
-    task = Task.find(params[:id])
-    task.destroy
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を削除しました。"
+    @task.destroy
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を削除しました。"
   end
 
   private
 
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+
+  def set_task
+    @task = current_user.tasks.find(params[:id])
   end
 end

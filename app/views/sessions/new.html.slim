@@ -1,0 +1,14 @@
+h1 ログイン
+
+/spopeオブジェクトに私た値がname値のプレフィックス(接頭語)になっている
+/name = "session[name]"
+/という形でパラメータが送信(post)されている。
+/form_withで以下の場合urlを指定する必要はない(scopeから予測してくれる?)
+= form_with scope: :session, url: login_path, local: true do |f|
+  .form-group
+    = f.label :email, 'メールアドレス'
+    = f.text_field :email, class: 'form-control', id: 'session_email'
+  .form-group
+    = f.label :password, 'パスワード'
+    = f.password_field :password, class: 'form-control', id: 'session_password'
+  = f.submit 'ログインする', class: 'btn btn-primary'
