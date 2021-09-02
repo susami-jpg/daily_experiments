@@ -1,0 +1,22 @@
+= form_with model: experiment_record, local: true do |f|
+  .form-group
+    = f.label :experimented_on
+    p （入力例： 2021年8月31日 -> 2021/08/31）
+    = f.text_field :experimented_on, class: 'form-control', id: 'experimented_on'
+    
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control', id: 'experiment_name'
+  .form-group
+    = f.label :start_at
+    p （入力例： 8時30分開始 -> 8:30）
+    = f.text_field :start_at, class: 'form-control', id: 'start_time'
+  .form-group
+    = f.label :end_at
+    p （入力例： 12時30分終了 -> 12:30）
+    p ※終了日時が実験開始日を超える場合は年月日と日時を入力してください（例：2021年8月31日12:30終了 -> 2021/08/31 12:30）
+    = f.text_field :end_at, class: 'form-control', id: 'end_time'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 10, class: 'form-control', id: 'experiment_description'
+  = f.submit nil, class: 'btn btn-primary'

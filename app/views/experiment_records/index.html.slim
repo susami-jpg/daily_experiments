@@ -1,0 +1,25 @@
+h1 実験記録一覧
+
+= link_to '新規登録', new_experiment_record_path, class: 'btn btn-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      th= ExperimentRecord.human_attribute_name(:experimented_on)
+      th= ExperimentRecord.human_attribute_name(:name)
+      th= ExperimentRecord.human_attribute_name(:start_at)
+      th= ExperimentRecord.human_attribute_name(:end_at)
+      th= ExperimentRecord.human_attribute_name(:required_time)
+      th
+  tbody
+    - @experiment_records.each do |experiment_record|
+      tr
+        td= experiment_record.experimented_on
+        td= link_to experiment_record.name, experiment_record
+        td= experiment_record.start_at
+        td= experiment_record.end_at
+        td= experiment_record.required_time
+        td
+          = link_to '編集', edit_experiment_record_path(experiment_record), class: 'btn btn-primary mr-3'
+          = link_to '削除', experiment_record, method: :delete, data: { confirm: "実験記録「#{experiment_record.experimented_on} #{experiment_record.name}を削除します。よろしいですか?」" }, class: 'btn btn-danger'

@@ -1,0 +1,6 @@
+h1 実験記録の新規登録
+
+.nav.justify-content-end
+  = link_to '実験記録一覧', experiment_records_path, class: 'nav-link'
+
+= render partial: 'form', locals: { experiment_record: @experiment_record }

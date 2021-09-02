@@ -1,0 +1,36 @@
+h1 実験記録の詳細
+
+.nav.justify-content-end
+  = link_to '実験記録一覧', experiment_records_path, class: 'nav-link'
+table.table.table-hover
+  tbody
+    tr
+      th= ExperimentRecord.human_attribute_name(:id)
+      td= @experiment_record.id
+    tr
+      th= ExperimentRecord.human_attribute_name(:experimented_on)
+      td= @experiment_record.experimented_on
+    tr
+      th= ExperimentRecord.human_attribute_name(:name)
+      td= @experiment_record.name
+    tr
+      th= ExperimentRecord.human_attribute_name(:start_at)
+      td= @experiment_record.start_at
+    tr
+      th= ExperimentRecord.human_attribute_name(:end_at)
+      td= @experiment_record.end_at
+    tr
+      th= ExperimentRecord.human_attribute_name(:required_time)
+      td= @experiment_record.required_time
+    tr
+      th= ExperimentRecord.human_attribute_name(:description)
+      td= simple_format(h(@experiment_record.description), {}, sanitize: false, wrapper_tag: "div")
+    tr
+      th= ExperimentRecord.human_attribute_name(:created_at)
+      td= @experiment_record.created_at
+    tr
+      th= ExperimentRecord.human_attribute_name(:updated_at)
+      td= @experiment_record.updated_at
+
+= link_to '編集', edit_experiment_record_path(@experiment_record), class: 'btn btn-primary mr-3'
+= link_to '削除', @experiment_record, method: :delete, data: { confirm: "実験記録「#{@experiment_record.experimented_on} #{@experiment_record.name}を削除します。よろしいですか?」" }, class: 'btn btn-danger'

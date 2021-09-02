@@ -9,6 +9,7 @@ ja:
           has_many: "%{record}が存在しているので削除できません"
     models:
       task: タスク
+      experiment_record: 実験記録
     attributes:
       task:
         id: ID
@@ -22,6 +23,16 @@ ja:
         admin: 管理者権限
         password: パスワード
         password_confirmation: パスワード(確認)
+        created_at: 登録日時
+        updated_at: 更新日時
+      experiment_record:
+        id: ID
+        experimented_on: 実験日
+        name: 実験名
+        start_at: 開始時刻
+        end_at: 終了時刻
+        description: 実験内容詳細
+        required_time: 所要時間
         created_at: 登録日時
         updated_at: 更新日時
   date:
