@@ -1,3 +1,8 @@
+- if experiment_record.errors.present?
+  ul#error_explanation
+    - experiment_record.errors.full_messages.each do |message|
+      li= message
+
 = form_with model: experiment_record, local: true do |f|
   .form-group
     = f.label :experimented_on
