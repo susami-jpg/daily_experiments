@@ -5,9 +5,6 @@ h1 実験記録の詳細
 table.table.table-hover
   tbody
     tr
-      th= ExperimentRecord.human_attribute_name(:id)
-      td= @experiment_record.id
-    tr
       th= ExperimentRecord.human_attribute_name(:experimented_on)
       td= @experiment_record.experimented_on
     tr
@@ -24,7 +21,7 @@ table.table.table-hover
       td= @experiment_record.required_time
     tr
       th= ExperimentRecord.human_attribute_name(:description)
-      td= simple_format(h(@experiment_record.description), {}, sanitize: false, wrapper_tag: "div")
+      td= auto_link(simple_format(h(@experiment_record.description), {}, sanitize: false, wrapper_tag: "div"))
     tr
       th= ExperimentRecord.human_attribute_name(:created_at)
       td= @experiment_record.created_at
