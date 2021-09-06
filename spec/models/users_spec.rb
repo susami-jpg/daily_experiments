@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'ユーザーの有効性検証', type: :model do
-  before(:each) do
+  before do
     #ユーザのセット
     @user = FactoryBot.create(:user, name: 'ユーザーA', email: 'a@example.com')
   end
