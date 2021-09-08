@@ -1,12 +1,27 @@
 class ExperimentRecord < ApplicationRecord
-  validates :experimented_on, presence: true, length: { maximum: 30 }
-  validates :name, presence: true
+  validates :experimented_on, presence: true
+  validates :name, presence: true, length: { maximum: 30 }
   #実験日、実験名、開始時刻が同じものは登録できない
-  validates :name, uniqueness: { scope: [:experimented_on, :start_at] }
+  validates :name, uniqueness: { scope: [:experimented_on, :start_at, :user_id] }
   validate :valid_Time_expression
-  before_save :change_str_to_time, :calc_required_time
+  before_save :change_str_to_time
+  #after_save :calc_required_time
 
   belongs_to :user
+
+  def calc_required_time
+    s = Time.zone.parse(self.start_at)
+    e = Time.zone.parse(self.end_at)
+
+    if s.nil? or e.nil?
+      return
+    elsif s > e
+      return
+    else
+      r = (e - s)/(60)
+      self.required_time = r.divmod(60)[0].to_s + '時間' + r.divmod(60)[1].to_int.to_s + '分'
+    end
+  end
 
   private
 
@@ -49,23 +64,32 @@ class ExperimentRecord < ApplicationRecord
 
   def change_str_to_time
     self.experimented_on = Time.zone.parse(experimented_on).strftime("%Y-%m-%d")
-    self.start_at = Time.zone.parse(experimented_on + " " + start_at)
-    if !end_at.blank?
-      self.end_at = Time.zone.parse(self.end_at)
-    end
+    change_start_time
+    change_end_time
     self
   end
 
-  def calc_required_time
-    if start_at.blank? or end_at.blank?
-      return true
+  def change_start_time
+    if !self.start_at.blank?
+      if self.start_at.include?("/") or start_at.include?("-")
+        self.start_at = Time.zone.parse(start_at)
+      else
+        self.start_at = Time.zone.parse(experimented_on + " " + start_at)
+      end
+    else
+      self.start_at = self.experimented_on
     end
-    s = self.start_at = Time.zone.parse(experimented_on + " " + start_at)
-    e = self.end_at = Time.zone.parse(self.end_at)
-    if s > e
-      return true
+  end
+
+  def change_end_time
+    if !self.end_at.blank?
+      if self.end_at.include?("/") or end_at.include?("-")
+        self.end_at = Time.zone.parse(end_at)
+      else
+        self.end_at = Time.zone.parse(experimented_on + " " + end_at)
+      end
+    else
+      self.end_at = self.created_at.strftime("%Y-%m-%d %H:%M")
     end
-    r = (e - s)/(60)
-    self.required_time = r.divmod(60)[0].to_s + '時間' + r.divmod(60)[1].to_int.to_s + '分'
   end
 end

@@ -15,6 +15,7 @@ class ExperimentRecordsController < ApplicationController
     @experiment_record = current_user.experiment_records.new(experiment_record_params)
 
     if @experiment_record.save
+      @experiment_record.calc_required_time
       redirect_to @experiment_record, notice: "実験記録「#{@experiment_record.experimented_on}　#{@experiment_record.name}」を登録しました。"
     else
       render :new
