@@ -4,7 +4,7 @@ require 'time'
 describe '実験記録モデルの機能テスト', type: :model do
   before do
     @user = FactoryBot.create(:user, name: 'ユーザーA', email: 'a@example.com')
-    @experiment_record = FactoryBot.create(:experiment_record, experimented_on: '2021/09/06', name: '実験記録モデルのテストを作成する。', start_at: '8:00', end_at: '12:00', user: @user)
+    @experiment_record = FactoryBot.build(:experiment_record, experimented_on: '2021/09/06', name: '実験記録モデルのテストを作成する。', start_at: '8:00', end_at: '12:00', user: @user)
   end
 
   describe '実験記録の有効性検証' do
@@ -44,6 +44,7 @@ describe '実験記録モデルの機能テスト', type: :model do
         it '検証が落ちる' do
           duplicate_experiment_record = @experiment_record.dup
           @experiment_record.save
+          duplicate_experiment_record.change_str_to_time
           expect(duplicate_experiment_record.valid?).to be_falsey
         end
       end
@@ -53,6 +54,7 @@ describe '実験記録モデルの機能テスト', type: :model do
           duplicate_experiment_record = @experiment_record.dup
           duplicate_experiment_record.end_at = nil
           @experiment_record.save
+          duplicate_experiment_record.change_str_to_time
           expect(duplicate_experiment_record.valid?).to be_falsey
         end
       end
@@ -65,6 +67,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         @experiment_record.start_at = ""
         @experiment_record.save
 
+        @experiment_record.change_str_to_time
+
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.start_at).strftime("%Y-%m-%d")).to eq saved_experiment_record.experimented_on
       end
@@ -75,6 +79,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         @experiment_record.end_at = ""
         @experiment_record.save
 
+        @experiment_record.change_str_to_time
+
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(saved_experiment_record.end_at).to eq saved_experiment_record.created_at.strftime("%Y-%m-%d %H:%M")
       end
@@ -84,6 +90,8 @@ describe '実験記録モデルの機能テスト', type: :model do
       it '実験日がstart_atの年月日となる' do
         @experiment_record.save
 
+        @experiment_record.change_str_to_time
+
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.start_at).strftime("%Y-%m-%d")).to eq saved_experiment_record.experimented_on
       end
@@ -92,6 +100,8 @@ describe '実験記録モデルの機能テスト', type: :model do
     context 'end_atの年月日が記載されない場合' do
       it '実験日がend_atの年月日となる' do
         @experiment_record.save
+
+        @experiment_record.change_str_to_time
 
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.end_at).strftime("%Y-%m-%d")).to eq saved_experiment_record.experimented_on
@@ -104,6 +114,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         @experiment_record.start_at = s_time
         @experiment_record.save
 
+        @experiment_record.change_str_to_time
+
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.start_at)).to eq Time.zone.parse(s_time)
       end
@@ -112,6 +124,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         s_time = '2021-06-30 12:00'
         @experiment_record.start_at = s_time
         @experiment_record.save
+
+        @experiment_record.change_str_to_time
 
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.start_at)).to eq Time.zone.parse(s_time)
@@ -124,6 +138,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         @experiment_record.end_at = e_time
         @experiment_record.save
 
+        @experiment_record.change_str_to_time
+
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.end_at)).to eq Time.zone.parse(e_time)
       end
@@ -132,6 +148,8 @@ describe '実験記録モデルの機能テスト', type: :model do
         e_time = '2021-09-08 12:00'
         @experiment_record.end_at = e_time
         @experiment_record.save
+
+        @experiment_record.change_str_to_time
 
         saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
         expect(Time.zone.parse(saved_experiment_record.end_at)).to eq Time.zone.parse(e_time)
@@ -146,6 +164,8 @@ describe '実験記録モデルの機能テスト', type: :model do
             @experiment_record.start_at = s
             @experiment_record.end_at = e
             @experiment_record.save
+
+            @experiment_record.change_str_to_time
 
             saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
             saved_experiment_record.calc_required_time
@@ -165,6 +185,8 @@ describe '実験記録モデルの機能テスト', type: :model do
             @experiment_record.start_at = s
             @experiment_record.end_at = e
             @experiment_record.save
+
+            @experiment_record.change_str_to_time
 
             saved_experiment_record = ExperimentRecord.find_by(experimented_on: @experiment_record.experimented_on, name: @experiment_record.name, user: @experiment_record.user_id)
             saved_experiment_record.calc_required_time

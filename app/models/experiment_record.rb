@@ -23,6 +23,13 @@ class ExperimentRecord < ApplicationRecord
     end
   end
 
+  def change_str_to_time
+    self.experimented_on = Time.zone.parse(experimented_on).strftime("%Y-%m-%d")
+    change_start_time
+    change_end_time
+    self
+  end
+
   private
 
   def valid_Time_expression
@@ -62,13 +69,6 @@ class ExperimentRecord < ApplicationRecord
     """
   end
 
-  def change_str_to_time
-    self.experimented_on = Time.zone.parse(experimented_on).strftime("%Y-%m-%d")
-    change_start_time
-    change_end_time
-    self
-  end
-
   def change_start_time
     if !self.start_at.blank?
       if self.start_at.include?("/") or start_at.include?("-")
@@ -89,7 +89,7 @@ class ExperimentRecord < ApplicationRecord
         self.end_at = Time.zone.parse(experimented_on + " " + end_at)
       end
     else
-      self.end_at = self.created_at.strftime("%Y-%m-%d %H:%M")
+      self.end_at = Time.zone.now.strftime("%Y-%m-%d %H:%M")
     end
   end
 end

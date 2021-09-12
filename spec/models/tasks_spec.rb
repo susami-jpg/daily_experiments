@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'タスクの有効性検証', type: :model do
   before do
     @user = FactoryBot.create(:user, name: 'ユーザーA', email: 'a@example.com')
-    @task = FactoryBot.create(:task, name: 'タスクモデルのテストを作成する。', user: @user)
+    @task = FactoryBot.build(:task, name: 'タスクモデルのテストを作成する。', user: @user)
   end
 
   context 'タスクが有効な入力である場合' do

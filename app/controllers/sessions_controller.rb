@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: session_params[:email])
+    user = User.find_by(email: session_params[:email].downcase)
 
     if user&.authenticate(session_params[:password])
       #sessionメソッド
@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
       #この後のページで、session[:user_id]を使用してユーザーIDを元通りに取り出すことができます。
       redirect_to root_url, notice: 'ログインしました。'
     else
+      flash.now[:danger] = 'メールアドレス/パスワードの入力が正しくありません。'
       render :new
     end
   end

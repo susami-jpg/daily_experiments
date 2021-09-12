@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'ユーザーの有効性検証', type: :model do
   before do
     #ユーザのセット
-    @user = FactoryBot.create(:user, name: 'ユーザーA', email: 'a@example.com')
+    @user = FactoryBot.build(:user, name: 'ユーザーA', email: 'a@example.com')
   end
 
   context 'ユーザーが有効である場合' do
