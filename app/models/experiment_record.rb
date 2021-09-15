@@ -5,7 +5,6 @@ class ExperimentRecord < ApplicationRecord
   validates :name, uniqueness: { scope: [:experimented_on, :start_at, :user_id] }
   validate :valid_Time_expression
   before_save :change_str_to_time
-  #after_save :calc_required_time
 
   belongs_to :user
 

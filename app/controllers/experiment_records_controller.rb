@@ -1,7 +1,8 @@
 class ExperimentRecordsController < ApplicationController
   before_action :set_experiment_record, only: [:show, :edit, :update, :destroy]
   def index
-    @experiment_records = current_user.experiment_records.order(experimented_on: :asc)
+    @q = current_user.experiment_records.ransack(params[:q])
+    @experiment_records = @q.result(distinct: true).order(experimented_on: :asc)
   end
 
   def show
@@ -16,6 +17,7 @@ class ExperimentRecordsController < ApplicationController
 
     if @experiment_record.save
       @experiment_record.calc_required_time
+      @experiment_record.save
       redirect_to @experiment_record, notice: "実験記録「#{@experiment_record.experimented_on}　#{@experiment_record.name}」を登録しました。"
     else
       render :new

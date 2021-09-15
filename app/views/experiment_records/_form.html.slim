@@ -8,20 +8,26 @@
     = f.label :experimented_on
     p （入力例： 2021年8月31日 -> 2021/08/31）
     = f.text_field :experimented_on, class: 'form-control', id: 'experimented_on'
-    
+    p
   .form-group
     = f.label :name
     = f.text_field :name, class: 'form-control', id: 'experiment_name'
+    p
   .form-group
     = f.label :start_at
     p （入力例： 8時30分開始 -> 8:30）
+    p ※開始時刻を入力しない場合、実験日の0時0分を実験開始時刻として記録します。
     = f.text_field :start_at, class: 'form-control', id: 'start_time'
+    p
   .form-group
     = f.label :end_at
     p （入力例： 12時30分終了 -> 12:30）
+    p ※終了時刻を入力しない場合、この実験記録を作成した時刻を実験終了時刻として記録します。
     p ※終了日時が実験開始日を超える場合は年月日と日時を入力してください（例：2021年8月31日12:30終了 -> 2021/08/31 12:30）
     = f.text_field :end_at, class: 'form-control', id: 'end_time'
+    p
   .form-group
     = f.label :description
     = f.text_area :description, rows: 10, class: 'form-control', id: 'experiment_description'
+    p
   = f.submit nil, class: 'btn btn-primary'
