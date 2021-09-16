@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
 
   def index
     @q = User.ransack(params[:q])
-    @users = @q.result(distinct: true).recent
+    @users = @q.result(distinct: true)
   end
 
   def new

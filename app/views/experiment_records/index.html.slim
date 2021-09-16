@@ -8,8 +8,8 @@ h1 実験記録一覧
 table.table.table-hover
   thead.thead-default
     tr
-      th= ExperimentRecord.human_attribute_name(:experimented_on)
-      th= ExperimentRecord.human_attribute_name(:name)
+      th= sort_link(@q, :experimented_on)
+      th= sort_link(@q, :name)
       th= ExperimentRecord.human_attribute_name(:start_at)
       th= ExperimentRecord.human_attribute_name(:end_at)
       th= ExperimentRecord.human_attribute_name(:required_time)

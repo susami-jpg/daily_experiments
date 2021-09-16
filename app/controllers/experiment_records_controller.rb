@@ -2,7 +2,7 @@ class ExperimentRecordsController < ApplicationController
   before_action :set_experiment_record, only: [:show, :edit, :update, :destroy]
   def index
     @q = current_user.experiment_records.ransack(params[:q])
-    @experiment_records = @q.result(distinct: true).order(experimented_on: :asc)
+    @experiment_records = @q.result(distinct: true)
   end
 
   def show
