@@ -1,8 +1,6 @@
 class ExperimentRecord < ApplicationRecord
   validates :experimented_on, presence: true
   validates :name, presence: true, length: { maximum: 30 }
-  #実験日、実験名、開始時刻が同じものは登録できない
-  validates :name, uniqueness: { scope: [:experimented_on, :start_at, :user_id] }
   validate :valid_Time_expression
   before_save :change_str_to_time
 
@@ -70,7 +68,7 @@ class ExperimentRecord < ApplicationRecord
 
   def change_start_time
     if !self.start_at.blank?
-      if self.start_at.include?("/") or start_at.include?("-")
+      if self.start_at.include?("/") or self.start_at.include?("-")
         self.start_at = Time.zone.parse(start_at)
       else
         self.start_at = Time.zone.parse(experimented_on + " " + start_at)
@@ -82,7 +80,7 @@ class ExperimentRecord < ApplicationRecord
 
   def change_end_time
     if !self.end_at.blank?
-      if self.end_at.include?("/") or end_at.include?("-")
+      if self.end_at.include?("/") or self.end_at.include?("-")
         self.end_at = Time.zone.parse(end_at)
       else
         self.end_at = Time.zone.parse(experimented_on + " " + end_at)

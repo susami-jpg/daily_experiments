@@ -1,10 +1,16 @@
 h1 実験記録一覧
 
+p
 = render partial: 'layouts/search', locals: { q: @q }
 
 = link_to '新規登録', new_experiment_record_path, class: 'btn btn-primary'
 
+p
 .mb-3
+  = paginate @experiment_records
+  = page_entries_info @experiment_records
+p
+
 table.table.table-hover
   thead.thead-default
     tr

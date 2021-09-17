@@ -10,6 +10,7 @@ ja:
     models:
       task: タスク
       experiment_record: 実験記録
+      user: ユーザー
     attributes:
       task:
         id: ID

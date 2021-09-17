@@ -38,27 +38,6 @@ describe '実験記録モデルの機能テスト', type: :model do
         expect(@experiment_record.valid?).to be_falsey
       end
     end
-
-    context 'あるユーザーにおいて、実験日、実験名、開始時刻が同じものがすでに登録されている場合' do
-      context 'まったく同じレコードの場合' do
-        it '検証が落ちる' do
-          duplicate_experiment_record = @experiment_record.dup
-          @experiment_record.save
-          duplicate_experiment_record.change_str_to_time
-          expect(duplicate_experiment_record.valid?).to be_falsey
-        end
-      end
-
-      context 'end_atだけ異なる場合' do
-        it '検証が落ちる' do
-          duplicate_experiment_record = @experiment_record.dup
-          duplicate_experiment_record.end_at = nil
-          @experiment_record.save
-          duplicate_experiment_record.change_str_to_time
-          expect(duplicate_experiment_record.valid?).to be_falsey
-        end
-      end
-    end
   end
 
   describe 'timeに関する機能のテスト' do
