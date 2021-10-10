@@ -1,24 +1,49 @@
-# README
+## アプリケーション名
+「daily experiments」
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## アプリケーション概要
+日々の実験を記録したり、これからやるべきタスクを管理するアプリケーションです。
 
-Things you may want to cover:
+## URL
+https://daily-experiments.herokuapp.com/login
 
-* Ruby version
+## テスト用アカウント
+ユーザー名: testuser  
+メールアドレス: test@example.com  
+パスワード: testyyy345
 
-* System dependencies
+## 利用方法
+上記のテストユーザーでログインする。
+グループ(研究室のメンバー)で利用するなら、ユーザーを作成できます(ユーザー管理権限を付与するか選択できます）。
+実験記録を追加するなら実験記録の新規作成から、たすくを追加するならタスクの新規作成から登録できます。
+実験記録、タスクの編集、削除もできます。
 
-* Configuration
+## 目指した課題解決
+日々の実験記録やタスクを簡単に管理できるようにすることと、実験の所要時間の目安を簡単に把握できるようにすることを目指しました。
 
-* Database creation
+## こだわった点
+- 実験ごとに所要時間を計算する機能
+- 実験記録、タスクの検索機能
+- ソート機能
+- ページネーション機能
 
-* Database initialization
+## 苦労した点
+- 所要時間を計算するときの例外処理や型の変換処理の記述
+- テストコードが落ちるときの対処
 
-* How to run the test suite
+## 未実装項目
+- ファイルの共有機能
+- 画像アップロード機能
 
-* Services (job queues, cache servers, search engines, etc.)
+## 使用技術
+- 言語、フレームワーク  
+Ruby(2.5.1), Ruby on Rails(5.2.1), RSpec, HTML, CSS, slim, SCSS, bootstrap
 
-* Deployment instructions
+- DB  
+Postgresql
 
-* ...
+- チーム開発技術  
+Git, GitHub
+
+- クラウド  
+Heroku

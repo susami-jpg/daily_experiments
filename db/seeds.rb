@@ -12,3 +12,19 @@ User.create!(
   password_confirmation: 'tokyoportboal',
   admin: true
   )
+
+User.create!(
+  name: 'testuser',
+  email: 'test@example.com',
+  password: 'testyyy345',
+  password_confirmation: 'testyyy345',
+  admin: true
+  )
+
+User.create!(
+  name: 'sampleuser',
+  email: 'sample@example.com',
+  password: 'sampleyyy345',
+  password_confirmation: 'sampleyyy345',
+  admin: false
+  )
